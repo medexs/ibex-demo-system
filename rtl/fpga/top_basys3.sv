@@ -49,10 +49,10 @@ module top_basys3 #(
 
   // Generating the system clock and reset for the FPGA.
   clkgen_xil7series clkgen(
-    .IO_CLK,
-    .IO_RST_N,
-    .clk_sys,
-    .rst_sys_n
+    .IO_CLK(IO_CLK),
+    .IO_RST_N(~IO_RST_N),
+    .clk_sys(clk_sys),
+    .rst_sys_n(rst_sys_n)
   );
 
 endmodule

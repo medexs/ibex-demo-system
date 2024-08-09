@@ -9,7 +9,7 @@ module top_basys3 #(
   // These inputs are defined in data/pins_basys3.xdc
   input         IO_CLK,
   input         IO_RST_N,
-  input  [ 3:0] SW,
+  input  [15:0] SW,
   input  [ 3:0] BTN,
   output [15:0] LED,
   input         UART_RX,
@@ -20,7 +20,7 @@ module top_basys3 #(
 
   // Instantiating the Ibex Demo System.
   ibex_demo_system #(
-    .GpiWidth     ( 8            ),
+    .GpiWidth     ( 4 + 16       ), // BTN + SW
     .GpoWidth     ( 16           ),
     .PwmWidth     ( 0            ),
     .SRAMInitFile ( SRAMInitFile )
@@ -28,7 +28,7 @@ module top_basys3 #(
     //input
     .clk_sys_i (clk_sys),
     .rst_sys_ni(rst_sys_n),
-    .gp_i      ({SW, BTN}),
+    .gp_i      ({BTN, SW}),
     .uart_rx_i (UART_RX),
 
     //output

@@ -8,7 +8,17 @@
 #include "gpio.h"
 #include "timer.h"
 
-#define USE_GPIO_SHIFT_REG 0
+// GPI
+#define SW0_MASK  0x1
+#define SW(n)     (SW0_MASK << n)
+#define BTNL_MASK ((SW0_MASK << 15) << 1)
+#define BTNR_MASK ((SW0_MASK << 15) << 2)
+#define BTNU_MASK ((SW0_MASK << 15) << 3)
+#define BTND_MASK ((SW0_MASK << 15) << 4)
+
+// GPO
+#define LED0_MASK 0x1
+#define LED(n)    (LED0_MASK << n)
 
 void test_uart_irq_handler(void) __attribute__((interrupt));
 
@@ -32,8 +42,8 @@ int main(void) {
 
   uint64_t last_elapsed_time = get_elapsed_time();
 
-  // Reset green LEDs to having just one on
-  set_outputs(GPIO_OUT, 0x10); // Bottom 4 bits are LCD control as you can see in top_artya7.sv
+  // Reset LEDs to having just one on
+  set_outputs(GPIO_OUT, LED(0));
 
   while (1) {
     uint64_t cur_time = get_elapsed_time();
@@ -56,19 +66,22 @@ int main(void) {
       // Re-enable interrupts with output complete
       set_global_interrupt_enable(1);
 
-      // Cycling through green LEDs
-      if (USE_GPIO_SHIFT_REG) {
-        // Feed value of BTN0 into the shift register
-        set_outputs(GPIO_OUT_SHIFT, in_val);
-      } else {
-        // Cycle through LEDs unless BTN0 is pressed
-        uint32_t out_val = read_gpio(GPIO_OUT);
-        out_val = (out_val << 1) & GPIO_LED_MASK;
-        if ((in_val & 0x1) || (out_val == 0)) {
-          out_val = 0x10;
-        }
-        set_outputs(GPIO_OUT, out_val);
-      }
+      // Cycle through LEDs unless BTNL is pressed
+      // uint32_t out_val = read_gpio(GPIO_OUT);
+      // out_val = (out_val << 1) & 0xF;
+      // if ((in_val & BTNL_MASK) || (out_val == 0)) {
+      //   out_val = LED(0);
+      // }
+      // set_outputs(GPIO_OUT, out_val);
+
+      // Shift LED0 left/right based on BTNL/BTNR
+      uint32_t out_val = read_gpio(GPIO_OUT);
+      if (in_val & BTNL_MASK)
+        out_val = out_val & LED(15) ? LED(0) : out_val << 1;
+      else if (in_val & BTNR_MASK)
+        out_val = out_val & LED(0) ? LED(15) : out_val >> 1;
+
+      set_outputs(GPIO_OUT, out_val);
     }
 
     asm volatile("wfi");

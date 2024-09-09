@@ -5,10 +5,10 @@
 adapter driver ftdi
 transport select jtag
 
-ftdi_device_desc "Digilent USB Device"
-ftdi_vid_pid 0x0403 0x6010
-ftdi_channel 0
-ftdi_layout_init 0x0088 0x008b
+ftdi device_desc "Digilent USB Device"
+ftdi vid_pid 0x0403 0x6010
+ftdi channel 0
+ftdi layout_init 0x0088 0x008b
 reset_config none
 
 # Configure JTAG chain and the target processor

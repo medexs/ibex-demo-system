@@ -6,3 +6,6 @@ target/
 *.log
 *.csv
 .vscode
+.Xil
+vivado*.jou
+vivado_*.str

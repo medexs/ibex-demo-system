@@ -8,7 +8,12 @@
 #include "dev_access.h"
 
 void uart_enable_rx_int(void) {
-  enable_interrupts(UART_IRQ);
+  enable_interrupts(UART_RX_IRQ);
+  set_global_interrupt_enable(1);
+}
+
+void uart_enable_tx_int(void) {
+  enable_interrupts(UART_TX_IRQ);
   set_global_interrupt_enable(1);
 }
 

@@ -11,9 +11,9 @@
 
 #define USE_GPIO_SHIFT_REG 0
 
-void test_uart_irq_handler(void) __attribute__((interrupt));
+void test_uart_rx_irq_handler(void) __attribute__((interrupt));
 
-void test_uart_irq_handler(void) {
+void test_uart_rx_irq_handler(void) {
   int uart_in_char;
 
   while ((uart_in_char = uart_in(DEFAULT_UART)) != -1) {
@@ -24,7 +24,7 @@ void test_uart_irq_handler(void) {
 }
 
 int main(void) {
-  install_exception_handler(UART_IRQ_NUM, &test_uart_irq_handler);
+  install_exception_handler(UART_RX_IRQ_NUM, &test_uart_rx_irq_handler);
   uart_enable_rx_int();
 
   // This indicates how often the timer gets updated.

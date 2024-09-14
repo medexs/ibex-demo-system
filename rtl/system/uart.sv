@@ -23,7 +23,8 @@ module uart #(
   output logic [DataWidth-1:0] device_rdata_o,
 
   input  logic uart_rx_i,
-  output logic uart_irq_o,
+  output logic uart_rx_irq_o,
+  output logic uart_tx_irq_o,
   output logic uart_tx_o
 );
 
@@ -73,6 +74,7 @@ module uart #(
   logic       tx_fifo_rvalid, tx_fifo_rready;
   logic [7:0] tx_fifo_rdata;
   logic       tx_fifo_full;
+  logic       tx_fifo_empty;
 
   assign reg_addr = device_addr_i[RegAddr-1:0];
 
@@ -94,7 +96,7 @@ module uart #(
             device_rdata_d = '0;
           end
           UartStatusReg: begin
-            device_rdata_d = {(DataWidth-2)'('0), tx_fifo_full, rx_fifo_empty};
+            device_rdata_d = {(DataWidth-3)'('0), tx_fifo_empty, tx_fifo_full, rx_fifo_empty};
           end
           default: begin
             device_rdata_d = '0;
@@ -149,7 +151,7 @@ module uart #(
     .err_o  ()
   );
 
-  assign uart_irq_o = !rx_fifo_empty;
+  assign uart_rx_irq_o = !rx_fifo_empty;
 
   //  Synchronize RX and derive rx_start signal
   always_ff @(posedge clk_i or negedge rst_ni) begin
@@ -228,6 +230,7 @@ module uart #(
 
   assign tx_fifo_wvalid = (reg_addr == UartTxReg) & write_req;
   assign tx_fifo_rready = tx_baud_tick & tx_next_byte;
+  assign tx_fifo_empty  = ~tx_fifo_rvalid;
 
   assign tx_baud_counter_d = tx_baud_tick ? '0 : tx_baud_counter_q + 1'b1;
   assign tx_baud_tick      = tx_baud_counter_q == $bits(tx_baud_counter_q)'(ClocksPerBaud - 1);
@@ -253,6 +256,8 @@ module uart #(
     .depth_o(),
     .err_o  ()
   );
+
+  assign uart_tx_irq_o = tx_fifo_empty;
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin

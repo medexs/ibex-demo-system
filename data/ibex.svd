@@ -43,7 +43,13 @@
         <usage>registers</usage>
       </addressBlock>
       <interrupt>
-        <name>UART0_IRQ</name>
+        <name>UART0_RX_IRQ</name>
+        <description>Indicates that there are bytes in RX FIFO ready to be received (i.e. not empty).</description>
+        <value>1</value>
+      </interrupt>
+      <interrupt>
+        <name>UART0_TX_IRQ</name>
+        <description>Indicates that the TX FIFO is empty.</description>
         <value>1</value>
       </interrupt>
       <registers>
@@ -81,6 +87,12 @@
           <addressOffset>0x0008</addressOffset>
           <resetValue>0x00000000</resetValue>
           <fields>
+            <field>
+              <name>TX_EMPTY</name>
+              <description>1 indicates that the TX FIFO is empty.</description>
+              <bitRange>[2:2]</bitRange>
+              <access>read-only</access>
+            </field>
             <field>
               <name>TX_FULL</name>
               <description>1 indicates that the TX FIFO is full.</description>

@@ -97,7 +97,8 @@ module ibex_demo_system #(
 
   // Interrupts.
   logic timer_irq;
-  logic uart_irq;
+  logic uart_rx_irq;
+  logic uart_tx_irq;
 
   // Host signals.
   logic        host_req      [NrHosts];
@@ -277,7 +278,7 @@ module ibex_demo_system #(
     .irq_software_i(1'b0),
     .irq_timer_i   (timer_irq),
     .irq_external_i(1'b0),
-    .irq_fast_i    ({14'b0, uart_irq}),
+    .irq_fast_i    ({13'b0, uart_tx_irq, uart_rx_irq}),
     .irq_nm_i      (1'b0),
 
     .scramble_key_valid_i('0),
@@ -374,7 +375,8 @@ module ibex_demo_system #(
     .device_rdata_o (device_rdata[Uart]),
 
     .uart_rx_i,
-    .uart_irq_o     (uart_irq),
+    .uart_rx_irq_o(uart_rx_irq),
+    .uart_tx_irq_o(uart_tx_irq),
     .uart_tx_o
   );
 

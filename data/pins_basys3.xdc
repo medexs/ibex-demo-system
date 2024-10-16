@@ -3,7 +3,7 @@ set_property -dict { PACKAGE_PIN W5    IOSTANDARD LVCMOS33 } [get_ports { IO_CLK
 create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports { IO_CLK }];
 
 ## Reset
-set_property -dict { PACKAGE_PIN U18   IOSTANDARD LVCMOS33 } [get_ports { IO_RST_N }]; # BTNC
+set_property -dict { PACKAGE_PIN U18   IOSTANDARD LVCMOS33 } [get_ports { IO_RST }]; # BTNC
 
 ## Switches
 set_property -dict { PACKAGE_PIN V17   IOSTANDARD LVCMOS33 } [get_ports { SW[0]  }]; # SW0

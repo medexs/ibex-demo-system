@@ -139,7 +139,7 @@ targets:
     toplevel: top_nexys_video
     tools:
       vivado:
-        part: "xc7a35tcpg236-1"
+        part: "xc7a200tsbg484-1"
     parameters:
       - SRAMInitFile
       - PRIM_DEFAULT_IMPL=prim_pkg::ImplXilinx

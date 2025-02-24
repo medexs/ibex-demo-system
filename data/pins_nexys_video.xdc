@@ -30,11 +30,11 @@ set_property -dict { PACKAGE_PIN Y13   IOSTANDARD LVCMOS25 } [get_ports { LED[7]
 
 
 ## Buttons
-set_property -dict { PACKAGE_PIN B22 IOSTANDARD LVCMOS12 } [get_ports { BTN[4] }]; #IO_L20N_T3_16 Sch=btnc
-set_property -dict { PACKAGE_PIN D22 IOSTANDARD LVCMOS12 } [get_ports { BTN[3] }]; #IO_L22N_T3_16 Sch=btnd
-set_property -dict { PACKAGE_PIN C22 IOSTANDARD LVCMOS12 } [get_ports { BTN[0] }]; #IO_L20P_T3_16 Sch=btnl
-set_property -dict { PACKAGE_PIN D14 IOSTANDARD LVCMOS12 } [get_ports { BTN[1] }]; #IO_L6P_T0_16 Sch=btnr
-set_property -dict { PACKAGE_PIN F15 IOSTANDARD LVCMOS12 } [get_ports { BTN[2] }]; #IO_0_16 Sch=btnu
+set_property -dict { PACKAGE_PIN B22 IOSTANDARD LVCMOS12 } [get_ports { BTN[4]   }]; #IO_L20N_T3_16 Sch=btnc
+set_property -dict { PACKAGE_PIN D22 IOSTANDARD LVCMOS12 } [get_ports { BTN[3]   }]; #IO_L22N_T3_16 Sch=btnd
+set_property -dict { PACKAGE_PIN C22 IOSTANDARD LVCMOS12 } [get_ports { BTN[0]   }]; #IO_L20P_T3_16 Sch=btnl
+set_property -dict { PACKAGE_PIN D14 IOSTANDARD LVCMOS12 } [get_ports { BTN[1]   }]; #IO_L6P_T0_16 Sch=btnr
+set_property -dict { PACKAGE_PIN F15 IOSTANDARD LVCMOS12 } [get_ports { BTN[2]   }]; #IO_0_16 Sch=btnu
 set_property -dict { PACKAGE_PIN G4  IOSTANDARD LVCMOS15 } [get_ports { IO_RST_N }]; #IO_L12N_T1_MRCC_35 Sch=cpu_resetn
 
 

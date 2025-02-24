@@ -13,7 +13,14 @@ module top_nexys_video #(
   input  [ 4:0] BTN,
   output [ 7:0] LED,
   input         UART_RX,
-  output        UART_TX
+  output        UART_TX,
+  input         SPI_RX,
+  output        SPI_TX,
+  output        SPI_SCK,
+  output        OLED_RST_N,
+  output        OLED_DATA_CMD,
+  output        OLED_VBAT_N,
+  output        OLED_VDD_N
 );
 
   logic clk_sys, rst_sys_n;
@@ -21,7 +28,7 @@ module top_nexys_video #(
   // Instantiating the Ibex Demo System.
   ibex_demo_system #(
     .GpiWidth     ( $size(BTN) + $size(SW) ),
-    .GpoWidth     ( $size(LED)             ),
+    .GpoWidth     ( $size(LED) + 4         ), // 4 for OLED signals
     .PwmWidth     ( 0                      ),
     .SRAMInitFile ( SRAMInitFile           )
   ) u_ibex_demo_system (
@@ -32,13 +39,14 @@ module top_nexys_video #(
     .uart_rx_i (UART_RX),
 
     //output
-    .gp_o     (LED),
+    .gp_o     ({OLED_DATA_CMD, OLED_VBAT_N, OLED_RST_N, OLED_VDD_N,
+                LED}),
     .pwm_o    (),
     .uart_tx_o(UART_TX),
 
-    .spi_rx_i (),
-    .spi_tx_o (),
-    .spi_sck_o(),
+    .spi_rx_i (SPI_RX),
+    .spi_tx_o (SPI_TX),
+    .spi_sck_o(SPI_SCK),
 
     .trst_ni(1'b1),
     .tms_i  (1'b0),

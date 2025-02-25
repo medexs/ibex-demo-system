@@ -380,8 +380,9 @@ module ibex_demo_system #(
 
   spi_top #(
     .ClockFrequency ( ClockFrequency ),
+    .BaudRate       ( 10_000_000 ),
     .CPOL           ( 0          ),
-    .CPHA           ( 1          )
+    .CPHA           ( 0          )
   ) u_spi (
     .clk_i (clk_sys_i),
     .rst_ni(rst_sys_ni),

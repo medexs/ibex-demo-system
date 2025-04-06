@@ -66,13 +66,21 @@ module spi_top #(
   // FIFO push happens when software writes to SpiTxReg
   assign tx_fifo_wvalid = (device_req_i & (reg_addr == SpiTxReg) & device_we_i & device_be_i[0]);
 
+  logic [7:0] byte_data_q;
+
+  always_ff @(posedge clk_i) begin
+    if (next_tx_byte_d) begin
+      byte_data_q <= byte_data_o;
+    end
+  end
+
   always_comb begin
     device_rdata_d = '0;
 
     if (device_req_i & ~device_we_i) begin
       case (reg_addr)
         SpiRxReg: begin
-          device_rdata_d = {(DataWidth-8)'('0), byte_data_o};
+          device_rdata_d = {(DataWidth-8)'('0), byte_data_q};
         end
         SpiStatusReg: begin
           device_rdata_d = {(DataWidth-2)'('0), tx_fifo_empty, tx_fifo_full};

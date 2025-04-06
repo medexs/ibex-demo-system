@@ -396,7 +396,7 @@ module ibex_demo_system #(
 
     .spi_rx_i(spi_rx_i), // Data received from SPI device.
     .spi_tx_o(spi_tx_o), // Data transmitted to SPI device.
-    .sck_o   (spi_sck_o), // Serial clock pin.
+    .sck_o   (spi_sck_o) // Serial clock pin.
   );
 
   `ifdef VERILATOR
